@@ -1,0 +1,34 @@
+import json
+from graph.state import FinPilotState
+from utils.gemini import llm
+def extractor_node(state: FinPilotState):
+    query = state["query"]
+    route = state["route"]
+    prompt = f"""
+    You are an information extraction assistant.
+    User Query:{query}
+    Route:{route}
+    Return ONLY valid JSON.
+    For currency:{{
+    "amount": number,
+    "from_currency": "USD",
+    "to_currency": "INR"
+    }}
+    For stock:{{
+    "symbol": "AAPL"
+    }}
+    For crypto:{{
+    "coin": "bitcoin"
+    }}
+    Do not explain anything.Only return JSON.
+    """
+    response = llm.invoke(prompt)
+    content = response.content.strip()
+    if content.startswith("```json"):
+        content = content.replace("```json", "")
+        content = content.replace("```", "")
+        content = content.strip()
+    extracted_data = json.loads(content)
+    state["extracted_data"] = extracted_data
+
+    return state
