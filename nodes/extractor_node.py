@@ -20,6 +20,10 @@ def extractor_node(state: FinPilotState):
     For crypto:{{
     "coin": "bitcoin"
     }}
+    For news:
+    {{
+    "topic":"Tesla"
+    }}
     Do not explain anything.Only return JSON.
     """
     response = llm.invoke(prompt)
