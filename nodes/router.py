@@ -11,6 +11,7 @@ def router_node(state: FinPilotState):
     {{"route":"currency"}}
     {{"route":"stock"}}
     {{"route":"crypto"}}
+    {{"route":"news"}}
     """
     response = llm.invoke(prompt)
     content = response.content.strip()
