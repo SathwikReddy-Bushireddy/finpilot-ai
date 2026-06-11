@@ -9,6 +9,14 @@ def response_node(state: FinPilotState):
     User Query:{query}
     Tool Output:{result}
     Generate a professional and user-friendly response.
+    You are FinPilot AI.
+    User Query:{query}
+    Tool Output:{result}
+    If the tool output contains news articles:
+    - Summarize the top stories.
+    - Mention the source.
+    - Keep it concise.
+    - Use bullet points.
     IMPORTANT:
     - Use the tool output.
     - Do not say you cannot access real-time data.
