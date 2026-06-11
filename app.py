@@ -63,6 +63,10 @@ header {visibility:hidden;}
     border: 2px solid #FFE5D0;
     color: #222222;
     font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+.tool-card:hover {
+    transform: translateY(-3px);
 }
 
 /* Welcome Card */
@@ -123,6 +127,46 @@ header {visibility:hidden;}
     white-space: pre-wrap;
     line-height: 1.5;
 }
+            
+.stock-badge {
+    background: #E3F2FD;
+    color: #1565C0;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.crypto-badge {
+    background: #FFF3E0;
+    color: #E65100;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.currency-badge {
+    background: #E8F5E9;
+    color: #2E7D32;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.news-badge {
+    background: #F3E5F5;
+    color: #7B1FA2;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
 
 /* Chat Messages */
 
@@ -130,6 +174,44 @@ header {visibility:hidden;}
     border-radius: 12px;
 }
 
+/* Custom Input Box */
+
+.finpilot-input {
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    border: 2px solid #FFE5D0;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+/* Input Box */
+
+.stTextInput input {
+    background-color: #FFF8F0 !important;
+    color: #222222 !important;
+    border: 2px solid #FFE5D0 !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+    font-size: 0.95rem !important;
+}
+.stButton button {
+    border-radius: 10px;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    font-weight: 600;
+}
+
+/* Footer */
+
+.finpilot-footer {
+    text-align:center;
+    color:#555555;
+    font-size:0.9rem;
+    margin-top:80px;
+    padding-top:20px;
+    border-top:1px solid #E5D5C5;
+}
+            
 </style>
 """, unsafe_allow_html=True)
 # ==========================================================
@@ -161,7 +243,7 @@ st.markdown(
 
 if len(st.session_state.messages) == 0:
     # Tool Cards
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3,col4 = st.columns(4)
     with col1:
         st.markdown(
             """
@@ -189,17 +271,29 @@ if len(st.session_state.messages) == 0:
             """,
             unsafe_allow_html=True
         )
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown(
+    with col4:
+        st.markdown(
         """
-        <div class="welcome-card">
-            <b>Welcome to FinPilot AI</b><br><br>
-
-            Real-time stocks, crypto, and currency insights powered by LangGraph.
+        <div class="tool-card">
+            📰 News
         </div>
         """,
         unsafe_allow_html=True
-    )
+        )
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown(
+    """
+    <div class="welcome-card">
+        <b>Welcome to FinPilot AI</b><br><br>
+
+        Get real-time stock prices, cryptocurrency data,
+        currency conversions, and financial news using
+        intelligent LangGraph workflows.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+    
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(
     """
@@ -214,7 +308,7 @@ if len(st.session_state.messages) == 0:
     """,
     unsafe_allow_html=True
 )
-    c1, c2, c3 = st.columns(3)
+    c1, c2, c3, c4 = st.columns(4)
     with c1:
         if st.button(
             "📊 Tesla stock price",
@@ -242,6 +336,16 @@ if len(st.session_state.messages) == 0:
                 "Convert 100 USD to INR"
             )
             st.rerun()
+    with c4:
+        if st.button(
+            "📰 Latest Tesla news",
+            use_container_width=True
+        ):
+            st.session_state.prefill_query = (
+                "Latest Tesla news"
+            )
+            st.rerun()
+
 
 # ==========================================================
 # CHAT HISTORY
@@ -264,7 +368,8 @@ for message in st.session_state.messages:
                 badge = {
                     "stock": "📊 Stock Tool",
                     "crypto": "₿ Crypto Tool",
-                    "currency": "💱 Currency Tool"
+                    "currency": "💱 Currency Tool",
+                    "news": "📰 News Tool"
                 }.get(route, "🤖 FinPilot")
                 st.markdown(
                     f"""
@@ -284,29 +389,54 @@ for message in st.session_state.messages:
 # CHAT INPUT
 # ==========================================================
 if len(st.session_state.messages) > 0:
-    col1, col2 = st.columns([8, 1])
-    with col2:
+    st.markdown("<br>", unsafe_allow_html=True)
+    col1, col2, col3 = st.columns([7,1,2])
+    with col3:
         if st.button(
             "🗑 Clear Chat",
             use_container_width=True
         ):
             st.session_state.messages = []
             st.rerun()
-            
-query = st.chat_input(
-    "Ask a financial question..."
-)
+# ==========================================================
+# CUSTOM INPUT
+# ==========================================================
+
+# st.markdown(
+#     """
+#     <div class="finpilot-input">
+#     <b>Ask a Financial Question</b>
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )
+
+col1, col2 = st.columns([8,1])
+
+with col1:
+    query = st.text_input(
+        "",
+        placeholder="Ask about stocks, crypto, currency conversion, or financial news...",
+        label_visibility="collapsed"
+    )
+
+with col2:
+    send_clicked = st.button(
+        "🚀 Ask",
+        use_container_width=True
+    )
 
 # Handle example button clicks
 if "prefill_query" in st.session_state:
     query = st.session_state.prefill_query
+    send_clicked = True
     del st.session_state.prefill_query
 
 # ==========================================================
 # PROCESS QUERY
 # ==========================================================
 
-if query:
+if send_clicked and query:
     # Show User Message
     st.session_state.messages.append(
         {
@@ -347,12 +477,28 @@ If the problem persists, check your Gemini API usage and billing.
         "currency": "💱 Currency Tool",
         "error": "⚠️ Error"
     }
-    badge = tool_map.get(route, "🤖 FinPilot")
-    badge_class = (
-        "error-badge"
-        if route == "error"
-        else "route-badge"
+    badge_map = {
+    "stock": (
+        "📊 Stock Tool",
+        "stock-badge"
+    ),
+    "crypto": (
+        "₿ Crypto Tool",
+        "crypto-badge"
+    ),
+    "currency": (
+        "💱 Currency Tool",
+        "currency-badge"
+    ),
+    "news": (
+        "📰 News Tool",
+        "news-badge"
     )
+}
+    badge, badge_class = badge_map.get(
+    route,
+    ("🤖 FinPilot", "route-badge")
+)
     if route == "error":
         final_response = f"""
     <div class="error-card">
@@ -395,3 +541,13 @@ If the problem persists, check your Gemini API usage and billing.
             """,
             unsafe_allow_html=True
             )
+
+
+st.markdown(
+    """
+    <div class="finpilot-footer">
+        FinPilot AI • LangGraph • Gemini
+    </div>
+    """,
+    unsafe_allow_html=True
+)
