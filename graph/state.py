@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import TypedDict,List
 
 class FinPilotState(TypedDict):
     query: str
@@ -6,4 +6,5 @@ class FinPilotState(TypedDict):
     extracted_data: str
     result: str
     response: str
+    history: List[str]
     
