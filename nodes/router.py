@@ -4,13 +4,16 @@ import json
 
 def router_node(state: FinPilotState):
     query = state["query"]
-    prompt = f"""Classify this query.
-    Query:{query}
+    history=state.get("history",[])
+    prompt = f"""You are a financial AI assistant.
+    Conversation History:{history}
+    Current User Query:{query}
+    Classify this query.
     Return ONLY JSON.
     Examples:
-    {{"route":"currency"}}
     {{"route":"stock"}}
     {{"route":"crypto"}}
+    {{"route":"currency"}}
     {{"route":"news"}}
     """
     response = llm.invoke(prompt)
