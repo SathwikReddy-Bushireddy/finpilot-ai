@@ -4,8 +4,10 @@ from utils.gemini import llm
 def extractor_node(state: FinPilotState):
     query = state["query"]
     route = state["route"]
+    history=state.get("history",[])
     prompt = f"""
     You are an information extraction assistant.
+    conversation_history:{history}
     User Query:{query}
     Route:{route}
     Return ONLY valid JSON.
@@ -24,7 +26,7 @@ def extractor_node(state: FinPilotState):
     {{
     "topic":"Tesla"
     }}
-    Do not explain anything.Only return JSON.
+    Do not explain anything.Extract required information.Only return JSON.
     """
     response = llm.invoke(prompt)
     content = response.content.strip()
