@@ -1,5 +1,6 @@
 from langgraph.graph import StateGraph,START,END
 from graph.state import FinPilotState
+from langgraph.checkpoint.memory import MemorySaver
 
 from nodes.router import router_node
 from nodes.crypto_node import crypto_node
@@ -36,4 +37,5 @@ workflow.add_edge('crypto','response')
 workflow.add_edge('news','response')
 workflow.add_edge('response',END)
 
-graph=workflow.compile()
+checkpoint=MemorySaver()
+graph=workflow.compile(checkpointer=checkpoint)
