@@ -5,7 +5,9 @@ def response_node(state: FinPilotState):
     print("RESPONSE NODE EXECUTED")
     query = state["query"]
     result = state["result"]
-    prompt = f"""You are FinPilot AI, a financial assistant.\
+    history=state.get("history",[])
+    prompt = f"""You are FinPilot AI, a financial assistant.
+    Conversation History:{history}
     User Query:{query}
     Tool Output:{result}
     Generate a professional and user-friendly response.
@@ -25,5 +27,9 @@ def response_node(state: FinPilotState):
     """
     response = llm.invoke(prompt)
     state["response"] = response.content
-
+    history = state.get("history",[])
+    history.append(f"User: {query}")
+    history.append(f"Assistant: {response.content}")
+    state["history"] = history
+    
     return state
