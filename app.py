@@ -104,6 +104,11 @@ header {visibility:hidden;}
     display: inline-block;
     margin-bottom: 8px;
 }
+    .response-text {
+    color: #222222;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
 
 .error-badge {
     background-color: #FF4D4F;
@@ -219,7 +224,10 @@ header {visibility:hidden;}
 # ==========================================================
 
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    st.session_state.messages=[]
+
+if "history" not in st.session_state:
+    st.session_state.history=[]
 
 # ==========================================================
 # HEADER
@@ -376,7 +384,15 @@ for message in st.session_state.messages:
                     <div class="route-badge">
                     {badge}
                     </div>
-                    {message["content"]}
+                    <div style="
+                        color:#222222;
+                        background:white;
+                        padding:12px;
+                        border-radius:12px;
+                        margin-top:8px;
+                        border:1px solid #FFE5D0;
+                        ">{message["content"]}
+                    </div>
                     """,
                     unsafe_allow_html=True
                 )
@@ -385,19 +401,21 @@ for message in st.session_state.messages:
         else:
             st.markdown(message["content"])
 
+if len(st.session_state.messages) > 0:
+
+    col1, col2,col3 = st.columns([6,2,2])
+
+    with col3:
+        if st.button(
+        "🗑 Clear Chat",
+        use_container_width=True
+    ):
+            st.session_state.messages = []
+            st.session_state.history = []
+            st.rerun()
 # ==========================================================
 # CHAT INPUT
 # ==========================================================
-if len(st.session_state.messages) > 0:
-    st.markdown("<br>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([7,1,2])
-    with col3:
-        if st.button(
-            "🗑 Clear Chat",
-            use_container_width=True
-        ):
-            st.session_state.messages = []
-            st.rerun()
 # ==========================================================
 # CUSTOM INPUT
 # ==========================================================
@@ -410,7 +428,26 @@ if len(st.session_state.messages) > 0:
 #     """,
 #     unsafe_allow_html=True
 # )
-
+# st.markdown(
+#     """
+#     <style>
+#     div[data-testid="stTextInput"] > div {
+#         color: #222222;
+#         background-color: white;
+#         padding: 12px;
+#         border-radius: 12px;
+#         margin-top: 8px;
+#         border: 1px solid #FFE5D0;
+#     }
+#     /* Optional: Ensure the actual input field background matches */
+#     div[data-testid="stTextInput"] input {
+#         background-color: white;
+#         color: #222222;
+#     }
+#     </style>
+#     """,
+#     unsafe_allow_html=True
+# )
 col1, col2 = st.columns([8,1])
 
 with col1:
@@ -435,7 +472,7 @@ if "prefill_query" in st.session_state:
 # ==========================================================
 # PROCESS QUERY
 # ==========================================================
-
+config1={'configurable':{'thread_id':'user_thread'}}
 if send_clicked and query:
     # Show User Message
     st.session_state.messages.append(
@@ -451,11 +488,13 @@ if send_clicked and query:
         try:
             result = graph.invoke(
                 {
-                    "query": query
-                }
+                    "query": query,
+                    "history": st.session_state.history
+                }, config=config1
             )
             response = result["response"]
             route = result["route"]
+            st.session_state.history=result.get("history",st.session_state.history)
         except Exception as e:
             error_text = str(e)
             if "RESOURCE_EXHAUSTED" in error_text:
@@ -537,11 +576,35 @@ If the problem persists, check your Gemini API usage and billing.
             <div class="route-badge">
             {badge}
             </div>
-            {response}
+            <div style="
+                color:#222222;
+                background:white;
+                padding:12px;
+                border-radius:12px;
+                margin-top:8px;
+                border:1px solid #FFE5D0;
+                ">{response}
+            </div>
             """,
             unsafe_allow_html=True
             )
-
+st.markdown(
+    """
+    <style>
+    div[data-testid="stExpander"] {
+        color: #222222;
+        background: white;
+        padding: 12px;
+        border-radius: 12px;
+        margin-top: 8px;
+        border: 1px solid #FFE5D0;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+with st.expander("🧠 Debug Memory"):
+    st.write(st.session_state.get("history", []))
 
 st.markdown(
     """
