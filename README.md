@@ -46,6 +46,10 @@ FinPilot AI is an **AI-powered financial assistant** built with modern AI techno
 
 ---
 
+## Live Demo
+https://finpilot-ai-sathwik-reddy.streamlit.app/
+
+---
 ## 🏗️ Architecture
 
 ### Financial Assistant Workflow
