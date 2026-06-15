@@ -1,2 +1,67 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*$py.class
+
+# Virtual Environment
+
+venv/
+env/
+.venv/
+
+# Environment Variables
+
 .env
-__pycache__/
+
+# Streamlit
+
+.streamlit/
+
+# VS Code
+
+.vscode/
+
+# JetBrains
+
+.idea/
+
+# macOS
+
+.DS_Store
+
+# Windows
+
+Thumbs.db
+
+# Uploaded PDFs
+
+uploads/
+
+# FAISS Vector Database
+
+faiss_index/
+
+# Logs
+
+*.log
+
+# Python Cache
+
+.pytest_cache/
+.mypy_cache/
+
+# Jupyter
+
+.ipynb_checkpoints/
+
+# Build Files
+
+build/
+dist/
+*.egg-info/
+
+# Temporary Files
+
+temp/
+tmp/
