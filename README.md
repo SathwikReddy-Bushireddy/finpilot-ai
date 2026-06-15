@@ -288,18 +288,7 @@ This project is licensed under the **MIT License**.
 
 ## 👤 Author
 
-<p align="center">
-  <a href="https://linkedin.com/in/sathwikreddy">
-    <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
-  </a>
-  <a href="https://github.com/SathwikReddy-Bushireddy">
-    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-  </a>
-</p>
-
-- **Name**: [Your Name]
-- **LinkedIn**: [Your LinkedIn Profile]
-- **GitHub**: [Your GitHub Profile]
+- **Name**: [Sathwik Reddy]
 
 ---
 
