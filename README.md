@@ -288,7 +288,7 @@ This project is licensed under the **MIT License**.
 
 ## 👤 Author
 
-- **Name**: [Sathwik Reddy]
+- **Name**: Sathwik Reddy
 
 ---
 
