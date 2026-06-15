@@ -248,7 +248,7 @@ The app will open at `http://localhost:8501`
 ![Financial Assistant](screenshots/financial_assistant.png)
 
 ### PDF Analyzer
-![PDF Analyzer](screenshots/pdf_analyzer.png)
+![PDF Analyzer](screenshots/financial_pdf_analyzer.png)
 
 ---
 
